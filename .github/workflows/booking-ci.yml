@@ -7,15 +7,18 @@ on:
 
 jobs:
   build:
-
+    name: Build and Push
     runs-on: ubuntu-latest
 
     permissions:
       contents: read
 
-    steps:
+    defaults:
+      run:
+        working-directory: booking
 
-      - name: Checkout Source
+    steps:
+      - name: Checkout Source Code
         uses: actions/checkout@v4
 
       - name: Set up Java 21
@@ -23,6 +26,7 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
+          cache: maven
 
       - name: Build Spring Boot Application
         run: mvn clean package -DskipTests
@@ -43,11 +47,14 @@ jobs:
           docker build -t ${{ secrets.ECR_REPOSITORY }} .
 
       - name: Tag Docker Image
+        working-directory: .
         run: |
-          docker tag ${{ secrets.ECR_REPOSITORY }}:latest \
+          docker tag \
+          ${{ secrets.ECR_REPOSITORY }}:latest \
           ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
 
       - name: Push Docker Image
+        working-directory: .
         run: |
           docker push \
           ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
