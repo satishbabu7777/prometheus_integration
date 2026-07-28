@@ -1,0 +1,49 @@
+replicaCount: 2
+
+image:
+  repository: 530700192947.dkr.ecr.ap-south-1.amazonaws.com/booking-service
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  className: alb
+
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+
+  host: ""
+  path: /
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+config:
+  springProfile: prod
+
+  datasourceUrl: jdbc:postgresql://booking-db.xxxxxxxxx.ap-south-1.rds.amazonaws.com:5432/bookingdb
+
+  datasourceUsername: postgres
+
+secret:
+  datasourcePassword: Satish89babu#
+
+hpa:
+  enabled: true
+
+  minReplicas: 2
+  maxReplicas: 5
+
+  cpuUtilization: 70

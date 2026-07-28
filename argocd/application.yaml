@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: booking-service
+  namespace: argocd
+
+spec:
+
+  project: booking-project
+
+  source:
+
+    repoURL: https://github.com/YOUR_USERNAME/PROMETHEUS-INTEGRATION.git
+
+    targetRevision: main
+
+    path: helm/booking-service
+
+    helm:
+      valueFiles:
+        - values.yaml
+
+  destination:
+
+    server: https://kubernetes.default.svc
+
+    namespace: default
+
+  syncPolicy:
+
+    automated:
+
+      prune: true
+
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true
