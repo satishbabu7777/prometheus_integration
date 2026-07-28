@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: order-service
+  server:
+    port: 8080  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/orderdb
+    username: satish
+    password: password
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+
+  endpoint:
+    health:
+      show-details: always
+
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
