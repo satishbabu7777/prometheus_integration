@@ -1,10 +1,10 @@
 spring:
   application:
-    name: order-service
+    name: booking-service
   server:
     port: 8080  
   datasource:
-    url: jdbc:postgresql://localhost:5432/orderdb
+    url: jdbc:postgresql://localhost:5432/bookingdb
     username: satish
     password: password
 
