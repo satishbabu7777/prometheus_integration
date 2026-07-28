@@ -4,7 +4,7 @@ spring:
   server:
     port: 8080 
 
- datasource:
+  datasource:
     url: jdbc:postgresql://database-1.cbe6s0ymsaw0.ap-south-1.rds.amazonaws.com:5432/postgres
     username: postgres
     password: Satish89babu#
