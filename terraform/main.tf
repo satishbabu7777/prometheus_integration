@@ -177,7 +177,8 @@ resource "aws_instance" "booking_server" {
 
 resource "aws_ecr_repository" "booking" {
   name = "booking-service"
-
+  force_delete = true
+  
   image_scanning_configuration {
     scan_on_push = true
   }

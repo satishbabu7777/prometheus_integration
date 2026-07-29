@@ -3,13 +3,21 @@ kind: ConfigMap
 
 metadata:
   name: booking-config
+  namespace: default
 
 data:
-
-  SPRING_PROFILES_ACTIVE: prod
-
-  SPRING_DATASOURCE_URL: jdbc:postgresql://booking-db.xxxxxxxxx.ap-south-1.rds.amazonaws.com:5432/bookingdb
-
-  SPRING_DATASOURCE_USERNAME: postgres
+  SPRING_PROFILES_ACTIVE: "prod"
 
   SERVER_PORT: "8080"
+
+  SPRING_DATASOURCE_URL: jdbc:postgresql://booking-db.cbe6s0ymsaw0.ap-south-1.rds.amazonaws.com:5432/bookingdb
+
+  SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
+  SPRING_JPA_SHOW_SQL: "true"
+  SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: "org.hibernate.dialect.PostgreSQLDialect"
+
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
+  MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: "always"
+  MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED: "true"
+
+  LOGGING_LEVEL_ROOT: "INFO"
