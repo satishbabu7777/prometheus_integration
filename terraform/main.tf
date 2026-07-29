@@ -25,17 +25,32 @@ resource "aws_internet_gateway" "igw" {
 }
 
 ############################################
-# Public Subnet
+# Public Subnet 1
 ############################################
 
-resource "aws_subnet" "public" {
+resource "aws_subnet" "public1" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = var.public_subnet_cidr
+  cidr_block              = var.public_subnet1_cidr
   availability_zone       = "${var.aws_region}a"
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "booking-public-subnet"
+    Name = "booking-public-subnet-1"
+  }
+}
+
+############################################
+# Public Subnet 2
+############################################
+
+resource "aws_subnet" "public2" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = var.public_subnet2_cidr
+  availability_zone       = "${var.aws_region}b"
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "booking-public-subnet-2"
   }
 }
 
@@ -56,8 +71,13 @@ resource "aws_route_table" "public" {
   }
 }
 
-resource "aws_route_table_association" "public" {
-  subnet_id      = aws_subnet.public.id
+resource "aws_route_table_association" "public1" {
+  subnet_id      = aws_subnet.public1.id
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "public2" {
+  subnet_id      = aws_subnet.public2.id
   route_table_id = aws_route_table.public.id
 }
 
@@ -115,8 +135,9 @@ resource "aws_iam_role" "ec2_role" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Action = "sts:AssumeRole"
       Effect = "Allow"
+      Action = "sts:AssumeRole"
+
       Principal = {
         Service = "ec2.amazonaws.com"
       }
@@ -141,7 +162,7 @@ resource "aws_iam_instance_profile" "ec2_profile" {
 resource "aws_instance" "booking_server" {
   ami                    = var.ami_id
   instance_type          = var.instance_type
-  subnet_id              = aws_subnet.public.id
+  subnet_id              = aws_subnet.public1.id
   vpc_security_group_ids = [aws_security_group.booking_sg.id]
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
 
@@ -169,8 +190,12 @@ resource "aws_ecr_repository" "booking" {
 ############################################
 
 resource "aws_db_subnet_group" "booking" {
-  name       = "booking-db-subnet-group"
-  subnet_ids = [aws_subnet.public.id]
+  name = "booking-db-subnet-group"
+
+  subnet_ids = [
+    aws_subnet.public1.id,
+    aws_subnet.public2.id
+  ]
 
   tags = {
     Name = "booking-db-subnet-group"
@@ -182,7 +207,6 @@ resource "aws_db_subnet_group" "booking" {
 ############################################
 
 resource "aws_db_instance" "booking" {
-
   identifier             = "booking-db"
 
   engine                 = "postgres"
