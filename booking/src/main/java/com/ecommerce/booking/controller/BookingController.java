@@ -1,5 +1,7 @@
 package com.ecommerce.booking.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +25,11 @@ public class BookingController {
                                  @RequestParam Long flightId) {
 
         return bookingService.createBooking(userId, flightId);
+    }
+
+    @GetMapping("/{name}")
+    public String testApi(@PathVariable String name) {
+        return name + " booking service is working fine";
     }
 
 }
