@@ -29,7 +29,7 @@ public class BookingController {
 
     @GetMapping("/{name}")
     public String testApi(@PathVariable String name) {
-        return name + " booking service is working fine";
+        return name + ":  Thank you Jeeus for teaching me to prepare CICD pipeline for spring boot application with helm chart and prometheus integration";
     }
 
 }
