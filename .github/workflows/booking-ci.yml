@@ -64,12 +64,12 @@ jobs:
       - name: Update Helm values.yaml
         working-directory: .
         run: |
-          sed -i "s|tag:.*|tag: ${IMAGE_TAG}|g" helm/booking-service/values.yaml
+          sed -i "s|tag:.*|tag: ${IMAGE_TAG}|g" helm/booking/values.yaml
 
       - name: Show Updated values.yaml
         working-directory: .
         run: |
-          cat helm/booking-service/values.yaml
+          cat helm/booking/values.yaml
 
       - name: Commit Helm Changes
         working-directory: .
@@ -77,7 +77,7 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
 
-          git add helm/booking-service/values.yaml
+          git add helm/booking/values.yaml
 
           git commit -m "Update Helm image tag to ${IMAGE_TAG}" || echo "No changes"
 
