@@ -33,7 +33,7 @@ config:
   datasourceUsername: postgres
 
 secret:
-  datasourcePassword: ""
+  datasourcePassword: "Satish89babu#"
 
 hpa:
   enabled: true
