@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: 530700192947.dkr.ecr.ap-south-1.amazonaws.com/booking-service
-  tag: latest
+  tag: 396249fc11942894a5f5e5d136a397ed082e4c2c
   pullPolicy: Always
 
 service:
